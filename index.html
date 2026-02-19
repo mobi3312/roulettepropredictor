@@ -77,7 +77,12 @@
             font-size: 11px;
             height: 30px;
             width: 100%;
+            transition: all 0.1s ease;
+            cursor: pointer;
         }
+        .blue-btn:hover { filter: brightness(1.1); }
+        .blue-btn:active { transform: scale(0.92); opacity: 0.8; }
+        .blue-btn:disabled { opacity: 0.3; transform: none; cursor: not-allowed; }
 
         .btn-outcome {
             font-size: 10px;
@@ -87,9 +92,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.1s ease;
+            cursor: pointer;
         }
         .btn-win { background: linear-gradient(to bottom, #2ecc71, #27ae60); color: white; }
         .btn-loss { background: linear-gradient(to bottom, #e74c3c, #c0392b); color: white; }
+        .btn-win:hover, .btn-loss:hover { filter: brightness(1.2); }
 
         .red-gear-btn {
             background: linear-gradient(to bottom, #ef7b6f 0%, #d84b3d 100%);
@@ -100,7 +108,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
+        .red-gear-btn:active { transform: scale(0.9) rotate(10deg); }
 
         .monitor-box {
             background: #000;
@@ -123,7 +134,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.1s ease;
+            cursor: pointer;
         }
+        .number-key:hover:not(:disabled) { filter: brightness(1.2); }
+        .number-key:active:not(:disabled) { transform: scale(0.9); }
+        .number-key:disabled { opacity: 0.2; transform: none; cursor: not-allowed; }
 
         .casino-chip {
             width: 65px;
@@ -136,6 +152,11 @@
             position: relative;
             font-weight: 900;
             color: white;
+            animation: chip-pulse 2s infinite ease-in-out;
+        }
+        @keyframes chip-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .chip-red { background: radial-gradient(circle, #ff4b4b 0%, #a71d1d 100%); }
