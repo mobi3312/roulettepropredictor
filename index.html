@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Roulette Software</title>
+    <!-- Shim pour éviter l'écran blanc dû à process.env -->
+    <script>
+      window.process = window.process || { env: {} };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background: #2b303b;
+            touch-action: manipulation;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Container principal : Style Logiciel Desktop par défaut */
+        .software-container {
+            width: 580px;
+            height: auto;
+            max-height: 95vh;
+            background: #1a1a1d;
+            border-radius: 4px;
+            border: 1px solid #3d3d42;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Adaptations Mobiles Uniquement - Sans barre de défilement globale */
+        @media (max-width: 600px) {
+            .software-container {
+                width: 100vw;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+            .number-key {
+                height: 26px !important;
+                font-size: 11px !important;
+            }
+            .casino-chip {
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 10px !important;
+            }
+            .blue-btn {
+                font-size: 9px !important;
+                height: 26px !important;
+            }
+            .monitor-box {
+                height: 80px !important;
+                font-size: 9px !important;
+                padding: 4px !important;
+            }
+            .main-body {
+                padding: 8px !important;
+            }
+            .journal-container {
+                min-height: 60px !important;
+            }
+            .red-gear-btn {
+                width: 50px !important;
+                height: 32px !important;
+            }
+            .btn-outcome {
+                height: 22px !important;
+                font-size: 8px !important;
+            }
+        }
+
+        .title-bar {
+            height: 30px;
+            background: #2a2a2e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            border-bottom: 1px solid #000;
+            flex-shrink: 0;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #444;
+            border: 1px solid #222;
+        }
+
+        .main-body {
+            padding: 15px;
+            background-image: 
+                linear-gradient(rgba(26, 26, 29, 0.8), rgba(26, 26, 29, 0.95)),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .blue-btn {
+            background: linear-gradient(to bottom, #7ba2d3 0%, #4c71a3 100%);
+            border: 1px solid #2e415a;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+            transition: filter 0.1s;
+            height: 30px;
+            width: 100%;
+        }
+        .blue-btn:hover:not(:disabled) { filter: brightness(1.1); }
+        .blue-btn:active:not(:disabled) { filter: brightness(0.9); }
+        .blue-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-outcome {
+            font-size: 10px;
+            font-weight: 900;
+            padding: 4px 0;
+            border-radius: 4px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-win { background: linear-gradient(to bottom, #2ecc71, #27ae60); border: 1px solid #1e8449; color: white; }
+        .btn-loss { background: linear-gradient(to bottom, #e74c3c, #c0392b); border: 1px solid #922b21; color: white; }
+
+        .red-gear-btn {
+            background: linear-gradient(to bottom, #ef7b6f 0%, #d84b3d 100%);
+            border: 1px solid #8e2b21;
+            border-radius: 8px;
+            width: 70px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            flex-shrink: 0;
+        }
+
+        .monitor-box {
+            background: #000;
+            border: 1px solid #4a5d74;
+            color: #59f7df;
+            font-family: 'Consolas', monospace;
+            font-size: 11px;
+            padding: 8px;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .number-key {
+            background: linear-gradient(to bottom, #7ba2d3 0%, #4c71a3 100%);
+            border: 1px solid #2e415a;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.05s;
+        }
+        .number-key:active:not(:disabled) { transform: scale(0.95); }
+        .number-key:disabled { opacity: 0.3; }
+
+        .input-mini {
+            background: #000;
+            border: 1px solid #444;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 5px;
+            width: 55px;
+            outline: none;
+            text-align: center;
+        }
+
+        .history-tab {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            background: rgba(76, 113, 163, 0.2);
+            border: 1px solid #4c71a3;
+            border-bottom: none;
+            padding: 2px 15px;
+            color: #7ba2d3;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .casino-chip {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 4px dashed rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.5);
+            position: relative;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+        .casino-chip::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .chip-red { background: radial-gradient(circle, #ff4b4b 0%, #a71d1d 100%); }
+        .chip-black { background: radial-gradient(circle, #444 0%, #111 100%); }
+        .chip-green { background: radial-gradient(circle, #2ecc71 0%, #145a32 100%); }
+
+        .mode-toggle {
+            background: #2a2a2e;
+            border: 1px solid #444;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+        }
+        .mode-btn {
+            padding: 2px 10px;
+            font-size: 9px;
+            font-weight: bold;
+            color: #7ba2d3;
+            text-transform: uppercase;
+        }
+        .mode-btn.active {
+            background: #4c71a3;
+            color: white;
+        }
+
+        .journal-container {
+            margin-top: 10px;
+            background: #000;
+            border: 1px solid #333;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 9px;
+            color: #fff;
+            flex-grow: 1;
+            min-height: 80px;
+        }
+        .journal-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .journal-table th {
+            background: #111;
+            color: #7ba2d3;
+            text-align: left;
+            padding: 4px;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+        }
+        .journal-table td {
+            padding: 3px 4px;
+            border-bottom: 1px solid #111;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.42.0",
+    "vite": "https://esm.sh/vite@^7.3.1"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>

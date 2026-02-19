@@ -1,0 +1,20 @@
+
+{
+  "name": "roulette-pro-predictor",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Logiciel de prédiction Roulette Pro avec intégration Gemini AI",
+  "main": "index.tsx",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@google/genai": "^1.42.0"
+  },
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'No build step required for ESM-based app'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

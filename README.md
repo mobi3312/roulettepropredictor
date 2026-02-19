@@ -1,11 +1,13 @@
-<div align="center">
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+# Roulette Pro Predictor
 
-  <h1>Built with AI Studio</h2>
+Application de prédiction de roulette professionnelle utilisant React 19 et Google Gemini AI.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Fonctionnalités
+- Analyse de séquences de numéros.
+- Algorithme de prédiction adaptatif.
+- Journal de mise et calcul de profit en temps réel.
+- Entièrement compatible avec Vercel et GitHub.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
-
-</div>
+## Installation
+Le projet utilise des modules ES directement via CDN. Aucun build n'est nécessaire.
