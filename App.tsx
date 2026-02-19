@@ -36,7 +36,6 @@ export default function App() {
     setState(prev => ({ ...prev, isLoading: true }));
     
     try {
-      // Tentative d'utilisation de Gemini si disponible, sinon fallback local
       const result = await predictNextNumber(currentHistory);
       const predictedObj = ROULETTE_NUMBERS.find(n => n.value === result.number) || ROULETTE_NUMBERS[0];
       
@@ -47,7 +46,6 @@ export default function App() {
         isLoading: false
       }));
     } catch (e) {
-      // Fallback Algorithme local déterministe
       const sum = currentHistory.slice(0, 3).reduce((acc, curr) => acc + curr.value, 0);
       const predictedValue = (sum * 7 + 3) % 37;
       const predictedObj = ROULETTE_NUMBERS.find(n => n.value === predictedValue)!;
@@ -66,16 +64,10 @@ export default function App() {
     
     setState(prev => {
       const newHistory = [item, ...prev.history].slice(0, 20);
-      
-      // On déclenche la prédiction tous les 3 numéros ajoutés ou si on a assez de données
       if (newHistory.length >= 3 && !prev.isLoading) {
         setTimeout(() => runPrediction(newHistory), 100);
       }
-
-      return {
-        ...prev,
-        history: newHistory
-      };
+      return { ...prev, history: newHistory };
     });
 
     setBuffer(prev => {
@@ -158,9 +150,9 @@ export default function App() {
             </div>
             
             <div className="flex gap-2 mt-1">
-              <div className="mode-toggle">
-                <button onClick={() => setEntryMode('number')} className={`mode-btn ${entryMode === 'number' ? 'active' : ''}`}>Numbers</button>
-                <button onClick={() => setEntryMode('color')} className={`mode-btn ${entryMode === 'color' ? 'active' : ''}`}>Colors</button>
+              <div className="mode-toggle flex border border-[#444] rounded overflow-hidden">
+                <button onClick={() => setEntryMode('number')} className={`px-2 py-0.5 text-[9px] font-bold ${entryMode === 'number' ? 'bg-[#4c71a3] text-white' : 'text-[#7ba2d3]'}`}>Numbers</button>
+                <button onClick={() => setEntryMode('color')} className={`px-2 py-0.5 text-[9px] font-bold ${entryMode === 'color' ? 'bg-[#4c71a3] text-white' : 'text-[#7ba2d3]'}`}>Colors</button>
               </div>
               <select 
                 value={selectedRoulette} 
@@ -173,7 +165,7 @@ export default function App() {
             </div>
           </div>
           <div className="flex flex-col items-end">
-             <div className="history-tab">Spin History</div>
+             <div className="text-[#7ba2d3] text-[10px] font-bold uppercase tracking-widest mb-1">Spin History</div>
              <div className="w-[100px] sm:w-[180px] h-[2px] bg-[#4c71a3]"></div>
           </div>
         </div>
@@ -200,7 +192,7 @@ export default function App() {
 
           <div className="flex-1 grid grid-cols-2 gap-2">
             <div className="monitor-box flex flex-col">
-              <div className="text-[#59f7df] text-[9px] border-b border-[#333] mb-1 pb-1">MONITOR</div>
+              <div className="text-[#59f7df] text-[9px] border-b border-[#333] mb-1 pb-1 uppercase font-bold">Monitor</div>
               <div className="flex-1 overflow-y-auto no-scrollbar font-mono text-[8px] opacity-70">
                 <div>[SYSTEM] Roulette Ready</div>
                 <div>[SYSTEM] {selectedRoulette.toUpperCase()}</div>
@@ -211,7 +203,7 @@ export default function App() {
             </div>
             
             <div className="monitor-box flex flex-col items-center justify-center relative">
-               <div className="absolute top-1 left-2 text-[8px] text-white/20 uppercase">Prediction</div>
+               <div className="absolute top-1 left-2 text-[8px] text-white/20 uppercase font-bold">Prediction</div>
                {state.prediction ? (
                  <div className={`casino-chip ${state.prediction.color === 'red' ? 'chip-red' : state.prediction.color === 'black' ? 'chip-black' : 'chip-green'}`}>
                     {entryMode === 'number' ? state.prediction.value : ''}
@@ -263,7 +255,7 @@ export default function App() {
                 type="number" 
                 value={state.bankroll} 
                 onChange={(e) => setState(prev => ({...prev, bankroll: Number(e.target.value)}))} 
-                className="input-mini text-green-400 font-bold" 
+                className="bg-transparent border-b border-white/10 w-12 outline-none text-green-400 font-bold" 
               />
             </div>
             <div className="flex items-center gap-1">
@@ -272,7 +264,7 @@ export default function App() {
                 type="number" 
                 value={state.currentBet} 
                 onChange={(e) => setState(prev => ({...prev, currentBet: Number(e.target.value)}))} 
-                className="input-mini text-blue-400 font-bold" 
+                className="bg-transparent border-b border-white/10 w-12 outline-none text-blue-400 font-bold" 
               />
             </div>
           </div>

@@ -1,13 +1,11 @@
 
-# Roulette Pro Predictor
+# Roulette Pro Predictor 🚀
 
-Application de prédiction de roulette professionnelle utilisant React 19 et Google Gemini AI.
+## 🆘 SOLUTION POUR LE BOUTON GRISÉ (GitHub Sync)
+Si tu ne peux pas cliquer sur **"Stage and commit all changes"** :
+1. Dans l'onglet **Source Control** (à gauche), cherche la zone de texte **"Message"**.
+2. **Écris un texte** dedans (ex: "update").
+3. Le bouton deviendra **BLEU** et tu pourras synchroniser.
 
-## Fonctionnalités
-- Analyse de séquences de numéros.
-- Algorithme de prédiction adaptatif.
-- Journal de mise et calcul de profit en temps réel.
-- Entièrement compatible avec Vercel et GitHub.
-
-## Installation
-Le projet utilise des modules ES directement via CDN. Aucun build n'est nécessaire.
+## Déploiement Vercel
+Le projet est configuré avec Vite. Vercel détectera automatiquement les paramètres.
